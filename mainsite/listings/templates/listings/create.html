@@ -1,0 +1,35 @@
+<h1>Create your listing</h1>
+
+<form method="post">
+    {% csrf_token %}
+
+    <label for="type">Item type:</label><br>
+    <select type="select" id="type" name="type" value="Hat">
+        <option>Hat</option>
+        <option>Shoes</option>
+        <option>Watch</option>
+        <option>Belt</option>    
+    </select>
+    <br><br>
+    
+    <label for="material">Material:</label><br>
+    <input type="text" id="material" name="material" value="Leather"><br><br>
+    <label for="price">Price:</label><br>
+    <input type="text" id="price" name="price" value="10.99"><br><br>
+    <label for="condition">Condition:</label><br>
+    <select type="select" id="condition" name="condition" value="New">
+    
+    <option>Unopened</option>
+    <option>New</option>
+    <option>Excellent</option>
+    <option>Good</option>
+    <option>Fair</option>
+
+    </select>
+    <br><br>
+    <label for="color">Color:</label><br>
+    <input type="text" id="color" name="color" value="Black"><br><br>
+    <label for="brand">Brand:</label><br>
+    <input type="text" id="brand" name="brand" value="Nike"><br><br>
+    <input type="submit" value="Create">
+</form>
