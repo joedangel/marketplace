@@ -1,6 +1,6 @@
 <h1>Create your listing</h1>
 
-<form method="post">
+<form action="/listings/publish" method="post">
     {% csrf_token %}
 
     <label for="type">Item type:</label><br>
@@ -11,7 +11,7 @@
         <option>Belt</option>    
     </select>
     <br><br>
-    
+
     <label for="material">Material:</label><br>
     <input type="text" id="material" name="material" value="Leather"><br><br>
     <label for="price">Price:</label><br>

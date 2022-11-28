@@ -2,6 +2,7 @@ from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse
 
 from .models import Listing
+from django.utils import timezone
 
 def index(request):
     return HttpResponse("200. You're at the listings index.")
@@ -10,7 +11,18 @@ def create(request):
     return render(request, 'listings/create.html')
 
 def publish(request):
-    return HttpResponse('Publish 200')
+    data = request.POST
+    listing = Listing(
+        item_type=data['type'],
+        item_color=data['color'],
+        item_brand=data['brand'],
+        item_condition=data['condition'],
+        item_material=data['material'],
+        item_price=float(data['price']),
+        listing_date=timezone.now())
+    listing.save()
+
+    return HttpResponse(f"{listing} created successfully")
 
 def delete(request):
     return HttpResponse("200. You're at delete.")
