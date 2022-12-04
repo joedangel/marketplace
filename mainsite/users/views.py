@@ -1,5 +1,6 @@
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse
+from django.template import loader
 from django.utils import timezone
 
 from .models import User
@@ -10,13 +11,19 @@ def createForm(request):
 def create(request):
     try:
         get_object_or_404(User, username=request.POST['username'])
-    except:
         return HttpResponse('400. Username unavailable.')
+    except:
+        pass
 
     user = User(username=request.POST['username'], password=request.POST['password'], created_date=timezone.now())
     user.save()
 
-    response = HttpResponse(F"200. created user {user.id} {user}")
+    template = loader.get_template('users/generic.html')
+    context = {
+        'msg': f"200. created user {user.id} {user}",
+    }
+
+    response = HttpResponse(template.render(context, request))
     response.set_cookie('user_id', user.id)
     return response
 
@@ -28,14 +35,25 @@ def login(request):
     if user.password != request.POST['password']:
         return HttpResponse(f"400. Wrong password.")
 
-    response = HttpResponse(f"200. You've logged in {user}.")
+    template = loader.get_template('users/generic.html')
+    context = {
+        'msg': f"200. You've logged in {user}."
+    }
+
+    response = HttpResponse(template.render(context, request))
     response.set_cookie('user_id', user.id)
     return response
 
 def logout(request):
     try:
         active_user_id = request.COOKIES['user_id']
-        response = HttpResponse(f"200. You've logged out {active_user_id}.")
+
+        template = loader.get_template('users/generic.html')
+        context = {
+            'msg': f"200. You've logged out {active_user_id}."
+        }
+
+        response = HttpResponse(template.render(context, request))
         response.delete_cookie('user_id')
         return response
     except KeyError:
